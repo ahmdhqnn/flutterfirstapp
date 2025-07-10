@@ -1,7 +1,7 @@
 name: flutter_application_1
 description: "A new Flutter project."
 
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+  flutter_svg: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -21,9 +22,10 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
 flutter:
-
-
   uses-material-design: true
+
+  assets:
+    - assets/vectors/
 
   fonts:
     - family: Poppins
@@ -67,4 +69,4 @@ flutter:
           weight: 900
         - asset: assets/fonts/Poppins-BlackItalic.ttf
           weight: 900
-          style: italic       
+          style: italic

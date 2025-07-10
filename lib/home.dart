@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,16 +13,33 @@ class HomePage extends StatelessWidget {
         width: double.infinity,
         height: 350,
         padding: const EdgeInsets.all(16),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 30),
-            Text(
-              'Hi Madmax',
-              style: TextStyle(fontSize: 18, color: Color(0xffFFFFFF)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Hi Madmax',
+                  style: TextStyle(fontSize: 18, color: Color(0xffFFFFFF)),
+                ),
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: SvgPicture.asset(
+                    'assets/vectors/notification.svg',
+                    fit: BoxFit.none,
+                  ),
+                ),
+              ],
             ),
-            Text(
+            const SizedBox(height: 30),
+            const Text(
               "Let's find\nYour Top doctor",
               style: TextStyle(
                 fontSize: 28,
@@ -29,8 +47,8 @@ class HomePage extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: 30),
-            TextField(
+            const SizedBox(height: 30),
+            const TextField(
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
