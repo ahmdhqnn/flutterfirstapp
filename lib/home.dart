@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/category.dart';
 import 'package:flutter_svg/svg.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final List<CategoryModel> categoriesData = CategoryModel.getCategories();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +28,7 @@ class HomePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 16, top: 16),
+          padding: EdgeInsets.only(top: 16, left: 16),
           child: Text(
             'Categories',
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
@@ -34,31 +40,40 @@ class HomePage extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: categoriesData[index].isSelected
-                          ? const Color(0xff51A8FF).withOpacity(0.45)
-                          : const Color(0xff050618).withOpacity(0.05),
-                      offset: const Offset(0, 4),
-                      blurRadius: 25,
-                    ),
-                  ],
-                  color: categoriesData[index].isSelected
-                      ? const Color(0xff51A8FF)
-                      : Colors.white,
-                ),
-                child: SvgPicture.asset(
-                  categoriesData[index].vector,
-                  fit: BoxFit.none,
+              return GestureDetector(
+                onTap: () {
+                  for (var item in categoriesData) {
+                    item.isSelected = false;
+                  }
+                  categoriesData[index].isSelected = true;
+                  setState(() {});
+                },
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: categoriesData[index].isSelected
+                            ? const Color(0xff51A8FF).withOpacity(0.45)
+                            : const Color(0xff050618).withOpacity(0.05),
+                        offset: const Offset(0, 4),
+                        blurRadius: 25,
+                      ),
+                    ],
+                    color: categoriesData[index].isSelected
+                        ? const Color(0xff51A8FF)
+                        : Colors.white,
+                  ),
+                  child: SvgPicture.asset(
+                    categoriesData[index].vector,
+                    fit: BoxFit.none,
+                  ),
                 ),
               );
             },
-            separatorBuilder: (context, index) => const SizedBox(width: 50),
+            separatorBuilder: (context, index) => const SizedBox(width: 71),
             itemCount: categoriesData.length,
           ),
         ),
