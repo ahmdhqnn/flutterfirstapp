@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/detail.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_application_1/models/category.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_application_1/models/doctor.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,14 +13,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<CategoryModel> categoriesData = CategoryModel.getCategories();
+  final List<DoctorModel> doctorsData = DoctorModel.getDoctors();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [header(), categories()],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [header(), categories(), doctors()],
+        ),
       ),
     );
   }
@@ -73,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-            separatorBuilder: (context, index) => const SizedBox(width: 71),
+            separatorBuilder: (context, index) => const SizedBox(width: 50),
             itemCount: categoriesData.length,
           ),
         ),
@@ -95,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Hi Madmax',
+                'Hi Edi',
                 style: TextStyle(fontSize: 18, color: Color(0xffFFFFFF)),
               ),
               Container(
@@ -114,10 +119,10 @@ class _HomePageState extends State<HomePage> {
           ),
           const SizedBox(height: 30),
           const Text(
-            "Let's find\nYour Top doctor",
+            "Let's find\nyour top doctor!",
             style: TextStyle(
+              color: Colors.white,
               fontSize: 28,
-              color: Color(0xffFFFFFF),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -127,7 +132,7 @@ class _HomePageState extends State<HomePage> {
               filled: true,
               fillColor: Colors.white,
               prefixIcon: Icon(Icons.search, color: Colors.black, size: 25),
-              hintText: "Search here...",
+              hintText: 'Search here...',
               hintStyle: TextStyle(fontWeight: FontWeight.w300),
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
@@ -137,6 +142,93 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget doctors() {
+    return ListView.separated(
+      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    DetailPage(doctorModel: doctorsData[index]),
+              ),
+            );
+          },
+          child: Container(
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xff51A8FF).withOpacity(0.07),
+                  offset: const Offset(0, 4),
+                  blurRadius: 20,
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 105,
+                  decoration: BoxDecoration(
+                    color: doctorsData[index].imageBox,
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                      alignment: Alignment.bottomCenter,
+                      image: AssetImage(doctorsData[index].image),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        doctorsData[index].name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        doctorsData[index].specialties.first,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 18),
+                          const SizedBox(width: 5),
+                          Text(
+                            doctorsData[index].score.toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(height: 15),
+      itemCount: doctorsData.length,
     );
   }
 }
